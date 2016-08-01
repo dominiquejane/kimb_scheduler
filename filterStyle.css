@@ -1,0 +1,116 @@
+.form-group input[type="checkbox"] {
+    display: none;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span {
+    width: 20px;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+    display: none;
+}
+.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+    display: inline-block;   
+}
+
+.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+    display: none;   
+}
+
+
+/*castro
+holden
+kim
+le
+patel
+champion
+read
+katekaru
+long 
+rezenters 
+*/
+
+.checkbox-label {
+	background-color: #fff;
+	border: 1px solid #ADADAD;
+	width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+.glyphicon-ok {
+	color: #fff;
+}
+
+.btn.all-staff .glyphicon-ok, .btn.all-location .glyphicon-ok {
+	color:#000;
+}
+
+.btn-group label {
+	padding: 3px 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+.btn:hover, .btn:active, .btn:focus {
+	color: #000;
+}
+
+.all-location, .all-staff,
+.all-location:focus, .all-staff:focus,
+.all-location:hover, .all-staff:hover,
+.all-location:active, .all-staff:active {
+	background-color: #fff;
+	border: 1px solid #ADADAD;
+}
+
+.castro, .castro:focus, .castro:hover, .castro:active {
+	background-color: #15B6F2;
+	border: 1px solid #15B6F2;
+}
+
+.kim, .kim:focus, .kim:hover, .kim:active {
+	background-color: #1E3552;
+	border: 1px solid #1E3552;
+}
+
+.holden, .holden:focus, .holden:hover, .holden:active {
+	background-color: #D20472;
+	border: 1px solid #D20472;
+}
+
+.le, .le:focus, .le:hover, .le:active {
+	background-color: #6E950A;
+	border: 1px solid #6E950A;
+}
+
+.patel, .patel:focus, .patel:hover, .patel:active {
+	background-color: #B0B3D1;
+	border: 1px solid #B0B3D1;
+}
+
+.champion, .champion:focus, .champion:hover, .champion:active {
+	background-color: #44268F;
+	border: 1px solid #44268F;
+}
+
+.read, .read:focus, .read:hover, .read:active {
+	background-color: #97819E;
+	border: 1px solid #97819E;
+}
+
+.kvf, .kvf:focus, .kvf:hover, .kvf:active {
+	background-color: #123456;
+	border: 1px solid #123456;
+}
+
+
+.dsc, .dsc:focus, .dsc:hover, .dsc:active {
+	background-color: #654321;
+	border: 1px solid #654321;
+}

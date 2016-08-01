@@ -1,0 +1,42 @@
+/*calendarStyle.css*/
+
+
+input#date-picker.hasDatepicker{
+	display: none;
+}
+
+div#ui-datepicker-div.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+	/*div#ui-datepicker-div .ui-datepicker {*/
+	top: 32px !important;
+}
+
+.fc .fc-toolbar .fc-center button {
+	margin: 0px;
+}
+
+#calendar {
+	overflow: scroll;
+	height: 85vh;
+	width: 85vw;
+	border: 1px solid red;
+	/*position: relative;
+	top: 15vh;*/
+}
+
+#calendar, #filter {
+	float: left;
+}
+
+div.fc-row.fc-week.fc-widget-content {
+	height: 140px;
+}
+
+/*creating taller time slots*/
+.fc-widget-content .fc-slats td {
+	height:4em;
+}
+
+/*
+button.fc-agendaDay-button.fc-button.fc-state-default.fc-corner-right {
+	border: 1px solid red;
+}*/
