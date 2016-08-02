@@ -5,45 +5,56 @@ $(document).ready(function() {
       {
         "start" : "2016-07-28 06:15:00",
         "end" : "2016-07-28 06:30:00",
-        "title" : "something",
+        "title" : "holden frt",
         "id": 001,
         "patient_id": 101,
         "rescheduled_at": "",
-        "client_id": "FRT", //location
+        "client_id": "frt", //location
         "staff_id": "holden",
         "status": "exercitation ut enim Duis",
       },
       {
-        "title" : "something",
+        "start" : "2016-07-28 06:15:00",
+        "end" : "2016-07-28 06:30:00",
+        "title" : "holden dsc",
+        "id": 001,
+        "patient_id": 101,
+        "rescheduled_at": "",
+        "client_id": "dsc", //location
+        "staff_id": "holden",
+        "status": "exercitation ut enim Duis",
+      },
+      {
+        "title" : "holden kvf",
         "start" : "2016-07-28 06:15:00",
         "end" : "2016-07-28 06:30:00",
         "id": 002,
         "patient_id": 102,
         "rescheduled_at": "",
-        "client_id": "KVF", //location
+        "client_id": "kvf", //location
         "staff_id": "holden",
         "status": "exercitation ut enim Duis",
       },
       {
-        "title" : "something",
+        "title" : "patel dsc",
         "start" : "2016-07-28 07:15:00",
         "end" : "2016-07-28 07:45:00",
         "end" : "",
         "id": 003,
         "patient_id": 103,
         "rescheduled_at": "",
-        "client_id": "DSC", //location
+        "client_id": "dsc", //location
         "staff_id": "patel",
         "status": "exercitation ut enim Duis",
       },
       {
-        "title" : "something",
+        "title" : "patel frt",
         "start" : "2016-07-28 08:15:00",
         "end" : "2016-07-28 08:45:00",
         "id": 004,
         "patient_id": 104,
         "rescheduled_at": "",
-        "client_id": "FRT", //location
+        "client_id": "frt", //location
         "staff_id": "patel",
         "status": "exercitation ut enim Duis",
       }
@@ -51,56 +62,53 @@ $(document).ready(function() {
     "classes": [
       {
         "attendees": ["parvati", "amanda", "cerie"],
-        "title" : "something",
+        "title" : "read dsc",
         "start" : "2016-07-28 08:15:00",
         "end" : "2016-07-28 09:30:00",
         "id": 2.1188895e+07,
-        "client_id": "DSC", //location
+        "client_id": "dsc", //location
         "staff_id": "read",
-        "title": "anim",
       },
       {
         "attendees": ["eliza", "ami", "fairplay", "kathy", "mikey", "chet"],
-        "title" : "something",
+        "title" : "read dsc",
         "start" : "2016-07-28 09:15:00",
         "end" : "2016-07-28 10:30:00",
         "id": 2.1188895e+07,
-        "client_id": "DSC", //location
+        "client_id": "dsc", //location
         "staff_id": "read",
-        "title": "anim",
       },
       {
         "attendees": ["ozzy", "james", "jason", "eric"],
-        "title" : "something",
+        "title" : "holden anim",
         "start" : "2016-07-28 10:15:00",
         "end" : "2016-07-28 11:30:00",
         "id": 2.1188895e+07,
-        "client_id": "FRT", //location
+        "client_id": "frt", //location
         "staff_id": "holden",
-        "title": "anim",
       }
     ],
     "time-blocks": [
       {
         "staff_id": "patel",
-        "client_id": "FRT", //location
-        "title" : "something",
+        "client_id": "frt", //location
+        "title" : "patel frt",
         "start" : "2016-07-28 06:45:00",
         "allDay" : true,
         "end" : "2016-07-28 07:00:00",
       },
       {
         "staff_id": "read",
-        "client_id": "KVF", //location
-        "title" : "something",
+        "client_id": "kvf", //location
+        "title" : "read kvf",
         "start" : "2016-07-28 08:45:00",
         "allDay" : true,
         "end" : "2016-07-28 11:00:00",
       },
       {
         "staff_id": "holden",
-        "client_id": "FRT", //location
-        "title" : "something",
+        "client_id": "frt", //location
+        "title" : "holden frt",
         "start" : "2016-07-28 06:45:00",
         "allDay" : true,
         "end" : "2016-07-28 07:00:00",
@@ -108,21 +116,28 @@ $(document).ready(function() {
     ] //all data from initial get request, should not be changed except on page reload
   };
   var currentData = []; //data that is currently on calendar
-  var availableData = []; //array in which all selected data(checkboxed filters) will be put into 
+  var availableData = []; 
   // availableData = availableData.concat(calendarData.appointments).concat(calendarData.classes).concat(calendarData['time-blocks']);
+  var availableData = calendarData.appointments.concat(calendarData.classes).concat(calendarData['time-blocks']);
+  // console.log(data);
+  
+  //option 2 for filtering: separate by location and pull for separate arrays...
+  // var location_array = ['KVF', 'FRT', 'DSC'];
+  // var current = [];
 
-  var data = calendarData.appointments.concat(calendarData.classes).concat(calendarData['time-blocks']);
+  // for (var i = 0; i < location_array.length; i++) {
+  //   var counter = 0;
+  //   current.push([]);
+  //   for (var k = 0; k < data.length; k++) {
+  //     // console.log(data[k].client_id);
+  //     if (location_array[i] === data[k].client_id) {
+  //       current[i][counter] = data[k];
+  //       counter++;
+  //     }
+  //   }
+  //   counter = 0;
+  // }
 
-  var dataFilter = function(obj, id){
-    if ('client_id' in obj === id){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  var kvf = data.filter(dataFilter, "KVF");
-  console.log(kvf);
 
  	// $.getJSON("http://3rp3nqzhyogdimm68-mock.stoplight-proxy.io/api/schedule/2016/01/01", function(data) {
   // 	calendarData = data;
@@ -174,15 +189,15 @@ var x;
     if($('#all-physician').is(':checked')){
       $('#all-physician').prop('checked', false);
     }
-    staff_validator_function(this);
+    staff_validator_function();
   });
 
  	$('#all-physician').click(function() {
- 		$('.physician-check-group').prop('checked', this.checked);
-
-    staff_validator_function(this);
-
     var group = $('.physician-check-group');
+ 		group.prop('checked', this.checked);
+
+    staff_validator_function();
+
     group.each(clickFilter);
 
  	});
@@ -192,15 +207,15 @@ var x;
     if($('#all-support').is(':checked')){
       $('#all-support').prop('checked', false);
     }
-    staff_validator_function(this);
+    staff_validator_function();
   });
 
   $('#all-support').click(function() {
-    $('.support-check-group').prop('checked', this.checked);
-
-    staff_validator_function(this);
-
     var group = $('.support-check-group');
+    group.prop('checked', this.checked);
+
+    staff_validator_function();
+
     group.each(clickFilter);
   });
 
@@ -209,15 +224,15 @@ var x;
     if($('#all-clinical').is(':checked')){
       $('#all-clinical').prop('checked', false);
     }
-    staff_validator_function(this);
+    staff_validator_function();
   });
 
   $('#all-clinical').click(function() {
-    $('.clinical-check-group').prop('checked', this.checked);
-
-    staff_validator_function(this);
-
     var group = $('.clinical-check-group');
+    group.prop('checked', this.checked);
+
+    staff_validator_function();
+
     group.each(clickFilter);
   });
 
@@ -227,15 +242,16 @@ var x;
       $('#all-location').prop('checked', false);
     } 
 
-    location_validator_function(this);
+    location_validator_function();
   });
 
   $('#all-location').click(function() {
-    $('.location-check-group').prop('checked', this.checked);
-
-    location_validator_function(this);
-
     var group = $('.location-check-group');
+
+    group.prop('checked', this.checked);
+
+    location_validator_function();
+
     group.each(clickFilter);
   });
 
@@ -264,6 +280,8 @@ var filterStaff = function(start, end, id) {
   return start;
 }
 
+// var filterStaff = function(current)
+
 var filterLocation = function(start, end, id) {
   var start_copy = start;
   var test = function(arr) {
@@ -289,6 +307,7 @@ var filterLocation = function(start, end, id) {
 var reloadCalendar = function() {
 
   $('#calendar').fullCalendar('removeEvents');
+  console.log("reloadCalendar", currentData);
   $('#calendar').fullCalendar('addEventSource', currentData);
   $('#calendar').fullCalendar('refetchEvents');
 
@@ -302,155 +321,221 @@ var blankCalendar = function() {
 
 }
 
-var location_validator_function = function(checkbox) {
-  if (checkbox.checked) {
+var location_validator_function = function() {
+  var checkbox = false;
+  $('.location-check-group').each(function() {
+    if ($(this).prop('checked')){
+      checkbox = true;
+    }
+  })
+  if (checkbox) {
       location_validator = "1";
     } else {
       location_validator = "";
-    }
+    } //would it be better to use a counter to track validator, (clicks = i++, unclicks = i-- )?
 }
 
-var staff_validator_function = function(checkbox) {
-  if (checkbox.checked) {
+var staff_validator_function = function() {
+  var checkbox = false;
+  $('.staff-check-group').each(function() {
+    if ($(this).prop('checked')){
+      checkbox = true;
+    }
+  })
+  if (checkbox) {
       staff_validator = "1";
     } else {
       staff_validator = "";
     }
 }
 
-// var clickFilter = function() {
-//     //need to check for location
-//     // edit filter function to check for location
-//     // need to check if both validators are truthy,
-//     // what happens with validators:
-//     // - if it doesnt have a class .location-check-group then staff valdiator is set to "1".
-//     // - if it does have a class .location-check-group then location validator is set to "1".
+var clickFilter = function() {
+    //need to check for location
+    // edit filter function to check for location
+    // need to check if both validators are truthy,
+    // what happens with validators:
+    // - if it doesnt have a class .location-check-group then staff valdiator is set to "1".
+    // - if it does have a class .location-check-group then location validator is set to "1".
 
-//     // when clickFunction is triggered it needs to check 
-//     // 1. if validators are both truthy
-//     //   -if both truthy then
+    // when clickFunction is triggered it needs to check 
+    // 1. if validators are both truthy
+    //   -if both truthy then
 
 
-//     // if($(this).hasClass('location-check-group')){
-//     //   location_validator = $(this).context.id;
-//     //   // console.log(location_validator)
-//     // }
-//     // else {
-//     //   staff_validator = $(this).context.id;
-//     //   // console.log(staff_validator)
-//     // }
-//   // console.log("click");
-//   // console.log("validators", "staff", staff_validator, "location", location_validator)
-//     // if (staff_validator && location_validator){
-//       //for each checked checkbox i need to fun the below code, one for staff, one for location
-//       // var checkbox_id = $(this).context.id;  //id from checkbox
-//       // console.log(checkbox_id);
-//       // var checked = $(this).is(':checked');
+    // if($(this).hasClass('location-check-group')){
+    //   location_validator = $(this).context.id;
+    //   // console.log(location_validator)
+    // }
+    // else {
+    //   staff_validator = $(this).context.id;
+    //   // console.log(staff_validator)
+    // }
+  // console.log("click");
+  // console.log("validators", "staff", staff_validator, "location", location_validator)
+    // if (staff_validator && location_validator){
+      //for each checked checkbox i need to fun the below code, one for staff, one for location
+      // var checkbox_id = $(this).context.id;  //id from checkbox
+      // console.log(checkbox_id);
+      // var checked = $(this).is(':checked');
 
-//       // if(checked === true) {
-//       //   filter(availableData, currentData, checkbox_id);
-//       //   reloadCalendar();
-//       // } else {
-//       //   filter(currentData, availableData, checkbox_id);
-//       //   reloadCalendar();
+      // if(checked === true) {
+      //   filter(availableData, currentData, checkbox_id);
+      //   reloadCalendar();
+      // } else {
+      //   filter(currentData, availableData, checkbox_id);
+      //   reloadCalendar();
 
-//         // staff_validator = "";
-//         // location_validator = "";
-//       // }
-//     // }
-// /////////
-//     // if (staff_validator && location_validator){
-//     //   //for each checked checkbox i need to fun the below code, one for staff, one for location
-//     //   var staff_id = $(this).context.id;
-//     //   var location_id = $(this).context.client_id;
-//     //   filterStaff(availableData, currentData, staff_id);
-//     //   if ($('#all-location').prop('checked', false)) {
-//     //     filterLocation(currentData, availableData, location_id)
-//     //   }
-//     //   reloadCalendar();
-//     // } else if (!staff_validator && location_validator) {
+        // staff_validator = "";
+        // location_validator = "";
+      // }
+    // }
+/////////
+    // if (staff_validator && location_validator){
+    //   //for each checked checkbox i need to fun the below code, one for staff, one for location
+    //   var staff_id = $(this).context.id;
+    //   var location_id = $(this).context.client_id;
+    //   filterStaff(availableData, currentData, staff_id);
+    //   if ($('#all-location').prop('checked', false)) {
+    //     filterLocation(currentData, availableData, location_id)
+    //   }
+    //   reloadCalendar();
+    // } else if (!staff_validator && location_validator) {
 
-//     // }
-// ////////////
+    // }
+////////////
     
-//       //for each checked checkbox i need to fun the below code, one for staff, one for location
+      //for each checked checkbox i need to fun the below code, one for staff, one for location
       
-//       // each time i check a box, update currentData.
-//     var checkbox_id = $(this).context.id;  //id from checkbox
-//     var checked = $(this).is(':checked');
+      // each time i check a box, update currentData.
+    var checkbox_id = $(this).context.id;  //id from checkbox
+    var checked = $(this).is(':checked');
+    var that = $(this);
 
-//     var checker1 = function() {
-//       if ($(this).hasClass('.location-check-group')) {
-//         if(checked === true) {
-//           filterLocation(availableData, currentData, checkbox_id);
-//         } else {
-//           filterLocation(currentData, availableData, checkbox_id);
-//         }
-//       } else {
-//         if(checked === true) {
-//           filterStaff(availableData, currentData, checkbox_id);
-//         } else {
-//           filterStaff(currentData, availableData, checkbox_id);
-//         }
-//       }  
-//       console.log("!!!!!!!!!!!!!!", checkbox_id);
-//       console.log("currentData", currentData);
-//       console.log("availableData", availableData);
-//       console.log("staff", staff_validator);
-//       console.log("location", location_validator);
-//     }
+    // console.log("current", currentData);
+    // console.log("available", availableData);
 
-//     var checker2 = function() {
-//       if ($(this).hasClass('.location-check-group')) {
-//         if(checked === true) {
-//           filterLocation(availableData, currentData, checkbox_id);
-//         } else {
-//           filterLocation(currentData, availableData, checkbox_id);//
-//         }
-//       } else {
-//         if(checked === true) {
-//           filterStaff(availableData, currentData, checkbox_id);
-//         } else {
-//           filterStaff(currentData, availableData, checkbox_id);//
-//         }
-//       }  
-//       console.log("!!!!!!!!!!!!!!", checkbox_id);
-//       console.log("currentData", currentData);
-//       console.log("availableData", availableData);
-//       console.log("staff", staff_validator);
-//       console.log("location", location_validator);
-//     }
-//     if all validators are true, and it is an additional location checkboxes are used i need to filter currentData items that match the current checked staff. if additional staff checkboxes are used I need to filter availableData items that match the current checked locations.
 
-//   var filterAll = function(all_checked_staff, all_checked_locations) {
-//     //or instead of paramaters, grab all the checked staff/locations with jquery selectors
-//     //do i need to run a nested for looP???? YUCK
-//     all_checked_staff.each(function() {
-//       var staff_id = $(this).context.id;
-//       all_checked_locations.each(function(staff_id){
-//         var location_id = $(this).context.id;
+    var checker1 = function() {
+      if ($(this).hasClass('.location-check-group')) {
+        if(checked === true) {
+          filterLocation(availableData, currentData, checkbox_id);
+        } else {
+          filterLocation(currentData, availableData, checkbox_id);
+        }
+      } else {
+        if(checked === true) {
+          filterStaff(availableData, currentData, checkbox_id);
+        } else {
+          filterStaff(currentData, availableData, checkbox_id);
+        }
+      }  
+      // console.log("!!!!!!!!!!!!!!", checkbox_id);
+      // console.log("currentData", currentData);
+      // console.log("availableData", availableData);
+      // console.log("staff", staff_validator);
+      // console.log("location", location_validator);
+    }
 
-//       })
-//     })
-//   }
+    var checker2 = function() {
+      if ($(this).hasClass('.location-check-group')) {
+        filterLocation(currentData, availableData, checkbox_id);//
+      } else {
+        filterStaff(currentData, availableData, checkbox_id);// 
+      }  
+      
+    } 
+    // if all validators are true, and it is an additional location checkboxes are used i need to filter currentData items that match the current checked staff. if additional staff checkboxes are used I need to filter availableData items that match the current checked locations.
+
+    var filterAll = function(start, end) {
+      // console.log("!start", start);
+      // console.log("!end", end);
+      //or instead of paramaters, grab all the checked staff/locations with jquery selectors
+     
+
+      $('.staff-check-group').each(function() {
+        if ($(this).prop('checked')){
+          var staff_id = $(this).context.id;
+          // console.log(staff_id);
+          $('.location-check-group').each(function(){
+            if ($(this).prop('checked')){
+      // console.log("filterAll");
+              var location_id = $(this).context.id;
+      // console.log("location", location_id);
+      // console.log("comparison", staff_id, end);
+              for (var i = 0; i < start.length; i++) {
+                if (staff_id === start[i].staff_id && location_id === start[i].client_id) {
+                  var arrayVal = start.splice(i, 1);
+                  // console.log("arrayVal", arrayVal);
+                  end.push(arrayVal[0]);
+                }
+              }
+              
+            }
+            
+          })
+        }
+      })
+
+    /////////
+
+
+    }
+
+    var filterOut = function(start, end, id, checkbox) {
+      var start_copy = start;
+      // console.log("that", that);
+      console.log(id);
+      var k = checkbox.hasClass('location-check-group');
+      console.log(k);
+      if (checkbox.hasClass('location-check-group')){
+        for (var i = start_copy.length - 1; i >= 0; i--) {
+          // console.log(start);
+          // console.log(id);
+          // console.log(start[i].client_id);
+          if (start_copy[i].client_id === id) {
+            // console.log(start[i].client_id);
+            // console.log(id);
+            var arrayVal = start.splice(i, 1);
+            end.push(arrayVal[0]);
+          }
+        }
+      } else {
+        for (var i = start_copy.length - 1; i >= 0; i--) {
+          if (start_copy[i].staff_id === id){
+            // console.log(id);
+            // console.log(start[i].staff_id);
+            var arrayVal = start.splice(i, 1);
+            end.push(arrayVal[0]);
+          }
+        }
+      }
+    }
 
 
 // should I filter all by location in the beginning???
 // have three currentData arrays, and three availableData arrays?
+
+//so first, i select one checkbox, that puts all matched items from aD to cD. then I select another checkbox, now everything is validated and I want to filter through what I just checked with what is on the currentData.
     
 
-//     if (staff_validator && location_validator){
-//       reloadCalendar();
-//     } else if (!staff_validator && !location_validator) {
-//       reloadCalendar();
-//     } else  {
-//       checker1();
-//       blankCalendar();
-//     }
+    if (staff_validator && location_validator){
+      if (checked){
+        filterAll(availableData, currentData);
+      } else {
+        filterOut(currentData, availableData, checkbox_id, that);
+      }
+      reloadCalendar();
+    } else if (!staff_validator && !location_validator) {
+      reloadCalendar();
+    } else  {
+      checker1();
+      blankCalendar();
+    }
 
-//   }
+    // console.log("current", currentData);
+    // console.log("available", availableData);
 
-//
+}
   
 
   $("input:checkbox").on('click', clickFilter);
@@ -459,7 +544,7 @@ var staff_validator_function = function(checkbox) {
   $('#calendar').fullCalendar({
 
     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-    defaultView: 'month',//'agendaDay',
+    defaultView: 'agendaDay',//'month',
     
     slotDuration: {minutes: 15}, //required
     header: {
@@ -474,9 +559,21 @@ var staff_validator_function = function(checkbox) {
       var viewNow = $('#calendar').fullCalendar('getView');
       if(viewNow.type === "agendaDay") {
         $('tbody.fc-body').css('display', 'none');
-        // $('tbody.fc-body').before('<table id="dayAgenda-display"><thead id="dayAgenda-display-head"><tr><td>what</td></tr></thead><tbody id="dayAgenda-display-body"></tbody></table>')
+        $('tbody.fc-body').before('<table id="dayAgenda-display"><thead id="dayAgenda-display-head"><tr><td>what</td></tr></thead><tbody id="dayAgenda-display-body"></tbody></table>')
       }
     },
+    eventAfterAllRender: function() {
+      $('.staff-check-group').each(function() {
+        if($(this).prop('checked')) {
+          console.log($(this).context.id);
+          //create a table for this id
+          $('#dayAgenda-display-body').append('<table>new table</table>');
+          //create a nested table for each location
+          // newTable = 
+          //populate appointments from currentData in each nested table
+        }
+      })
+    }
 
 
    })
@@ -522,6 +619,40 @@ var staff_validator_function = function(checkbox) {
         $('#calendar').fullCalendar( 'gotoDate', dateText )
       }
   });
+
+
+
+  //add add-appointment button to calendar
+  $('.fc-toolbar .fc-right .fc-button-group').after(
+    $('<div id="add-appt-bg"><img src="./icons/plusButton.png" id="add-appt-btn" /></div>')
+  );
+
+  $('#add-appt-bg').on('click', function() {
+    $('#dialog').dialog({
+      height: 300,
+      modal: true,
+      buttons: 
+      [
+        {
+          text: "Save Appointment",
+          click: function() {
+            console.log("appointment saved");
+            //add code to post appt to db
+          }
+        },
+        {
+          text: "Cancel",
+          click: function() {
+            $(this).dialog("close");
+          }
+        }
+      ]
+    });
+  })
+
+
+
+
 
 
 

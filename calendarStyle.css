@@ -21,6 +21,7 @@ div#ui-datepicker-div.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearf
 	border: 1px solid red;
 	/*position: relative;
 	top: 15vh;*/
+	padding-top: 15px;
 }
 
 #calendar, #filter {
@@ -40,3 +41,62 @@ div.fc-row.fc-week.fc-widget-content {
 button.fc-agendaDay-button.fc-button.fc-state-default.fc-corner-right {
 	border: 1px solid red;
 }*/
+
+
+/*Appointment modal*/
+#add-appt-bg {
+	margin: 0px 10px;
+}
+
+#add-appt-bg {
+	cursor: pointer;
+}
+
+#add-appt-btn {
+	height: 2.1em;
+	width: 2.1em;
+}
+
+#dialog{
+	display: none;
+}
+
+button.ui-dialog-titlebar-close {
+	display: none;
+}
+
+
+
+
+
+
+/**/
+/*
+
+*/
+/*div.fc-view-container,
+.fc-agenda-view .fc-day-grid,
+div.fc-row.fc-week.fc-widget-content,
+.fc-bg table tbody tr td.fc-day.fc-widet-content.fc-today.fc-state-highlight,
+ {
+ height: 100%
+};
+
+td.fc-axis, 
+td.fc-axis.fc-widget-content, 
+.fc-time-grid-container, 
+.fc-unthemed .fc-divider { 
+	display: none
+};*/
+
+
+
+
+
+
+
+
+
+
+
+

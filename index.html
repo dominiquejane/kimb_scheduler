@@ -34,6 +34,33 @@
 
 
 
+	<div id="dialog" title="Create New Appointment" >
+		<div>
+			Patient:
+			<input type="text">
+		</div>
+		<div>
+			Doctor:
+			<select name="" id="">
+				<option value=""></option>
+			</select>
+		</div>
+		<div>
+			Date:
+			<input type="date">
+		</div>
+		<div>
+			Reason:
+			<select name="" id="">
+				<option value=""></option>
+			</select>
+		</div>
+		<div>
+			Notes:
+			<input type="text">
+		</div>
+	</div>
+
 	<div id='calendar'></div>
 
 
@@ -90,7 +117,7 @@
 					<div>Physicians</div>
 
 					<div class="form-group">
-		        <input type="checkbox" class="physician-check-group" name="physician" id="all-physician" autocomplete="off" /> <!-- id="all-physician" -->
+		        <input type="checkbox" class="physician-check-group staff-check-group" name="physician" id="all-physician" autocomplete="off" /> <!-- id="all-physician" -->
 		        <div class="btn-group">
 		            <label for="all-physician" class="btn all-staff">
 		                <span class="glyphicon glyphicon-ok "></span>
@@ -103,7 +130,7 @@
 		    </div>
 
 				<div class="form-group">
-	        <input type="checkbox" class="physician-check-group" name="physician" id="holden" autocomplete="off" />
+	        <input type="checkbox" class="physician-check-group staff-check-group" name="physician" id="holden" autocomplete="off" />
 	        <div class="btn-group">
 	            <label for="holden" class="btn holden">
 	                <span class="glyphicon glyphicon-ok "></span>
@@ -120,7 +147,7 @@
 				<div>Support</div>
 
 					<div class="form-group">
-	        <input type="checkbox" class="support-check-group" name="support" id="all-support" autocomplete="off" /> <!-- id="all-support" -->
+	        <input type="checkbox" class="support-check-group staff-check-group" name="support" id="all-support" autocomplete="off" /> <!-- id="all-support" -->
 	        <div class="btn-group">
 	            <label for="all-support" class="btn all-staff">
 	                <span class="glyphicon glyphicon-ok "></span>
@@ -133,7 +160,7 @@
 	    </div>
 
 	    <div class="form-group">
-	        <input type="checkbox" class="support-check-group" name="support" id="patel" autocomplete="off" />
+	        <input type="checkbox" class="support-check-group staff-check-group" name="support" id="patel" autocomplete="off" />
 	        <div class="btn-group">
 	            <label for="patel" class="btn patel">
 	                <span class="glyphicon glyphicon-ok "></span>
@@ -150,7 +177,7 @@
 				<div>Clinical</div>
 
 				<div class="form-group">
-	        <input type="checkbox" class="clinical-check-group" name="clinical" id="all-clinical" autocomplete="off" /> <!-- id="all-clinical" -->
+	        <input type="checkbox" class="clinical-check-group staff-check-group" name="clinical" id="all-clinical" autocomplete="off" /> <!-- id="all-clinical" -->
 	        <div class="btn-group">
 	            <label for="all-clinical" class="btn all-staff">
 	                <span class="glyphicon glyphicon-ok "></span>
@@ -163,7 +190,7 @@
 	    </div>
 
 	    <div class="form-group">
-	        <input type="checkbox" class="clinical-check-group" name="clinical" id="read" autocomplete="off" />
+	        <input type="checkbox" class="clinical-check-group staff-check-group" name="clinical" id="read" autocomplete="off" />
 	        <div class="btn-group">
 	            <label for="read" class="btn read">
 	                <span class="glyphicon glyphicon-ok "></span>
