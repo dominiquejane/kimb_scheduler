@@ -1,6 +1,6 @@
 /* agendaDay view */
-/* classes for calendars with 7+ rooms tagged with '-7' */
 
+/* classes for calendars with 7+ rooms tagged with '-7' */
 .col-1-day, .col-2-day, .col-1-day-7, .col-2-day-7{
 	float:left;
 	height: 2000px;
@@ -95,14 +95,6 @@
 		padding-top:3px;
 	}
 }
- 
-
-/* weekAgenda view */
-.col-week {
-	color: black;
-	padding: 3px;
-	font-weight: bold;
-}
 
 
 /*creating taller time slots*/
@@ -112,8 +104,10 @@
 
 
 /* Adding 3D effect*/
-a.fc-time-grid-event.fc-v-event.fc-event.fc-start.fc-end, .col-1-day, .col-1-day-7 {
+/*a.fc-time-grid-event.fc-v-event.fc-event.fc-start.fc-end, .col-1-day, .col-1-day-7 {
 	box-shadow: inset 0px 0px 23px 2px rgba(146,0,0,0.2);
 }
+*/
+
 
 	
