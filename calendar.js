@@ -117,6 +117,7 @@ $(document).ready(function() {
   };
   var currentData = []; //data that is currently on calendar
   var availableData = []; 
+
   // availableData = availableData.concat(calendarData.appointments).concat(calendarData.classes).concat(calendarData['time-blocks']);
   var availableData = calendarData.appointments.concat(calendarData.classes).concat(calendarData['time-blocks']);
   // console.log(data);
@@ -138,11 +139,10 @@ $(document).ready(function() {
   //   counter = 0;
   // }
 
-
  	// $.getJSON("http://3rp3nqzhyogdimm68-mock.stoplight-proxy.io/api/schedule/2016/01/01", function(data) {
   // 	calendarData = data;
   // });
-
+not
   var staff_validator = "";
   var location_validator = "";
 
@@ -164,7 +164,7 @@ var y;
  //        $(this).prop("checked", false);
  //    	}
  // 		} 
-	// });
+	// });//do not use, name attr changed
 
 var x;
  // 	$("input:checkbox.staff-check-group").click(function() {
@@ -182,7 +182,7 @@ var x;
  //        $(this).prop("checked", false);
  //    	}
  // 		} 
-	// });
+	// });//do not use, name attr changed
 
 //physician
   $("input:checkbox.physician-check-group").not('#all-physician').click(function() {
@@ -407,6 +407,7 @@ var clickFilter = function() {
       //for each checked checkbox i need to fun the below code, one for staff, one for location
       
       // each time i check a box, update currentData.
+      console.log($(this));
     var checkbox_id = $(this).context.id;  //id from checkbox
     var checked = $(this).is(':checked');
     var that = $(this);
@@ -529,7 +530,7 @@ var clickFilter = function() {
       reloadCalendar();
     } else  {
       checker1();
-      blankCalendar();
+      //blankCalendar();
     }
 
     // console.log("current", currentData);
@@ -563,16 +564,29 @@ var clickFilter = function() {
       }
     },
     eventAfterAllRender: function() {
+      // $('.location-check-group').each(function() {
+      //   if($(this).prop('checked')){
+      //     $('.staff-check-group').each(function() {
+      //     if($(this).prop('checked')) {
+      //       // console.log($(this).context.id);
+      //       //create a table for this id
+      //       var newTable = $('#dayAgenda-display-body').append('<table>new table</table>');
+      //       //create a nested table for each location
+      //       // newTable = 
+      //       //populate appointments from currentData in each nested table
+      //     }
+      //   })
+      //   }
+      // })
+      
+      console.log("after rendered");
       $('.staff-check-group').each(function() {
-        if($(this).prop('checked')) {
-          console.log($(this).context.id);
-          //create a table for this id
-          $('#dayAgenda-display-body').append('<table>new table</table>');
-          //create a nested table for each location
-          // newTable = 
-          //populate appointments from currentData in each nested table
+        if($(this).is('checked')){
+          console.log("check");
+          console.log($(this))
         }
       })
+      
     }
 
 
@@ -638,6 +652,8 @@ var clickFilter = function() {
           click: function() {
             console.log("appointment saved");
             //add code to post appt to db
+            //reloadCalendar();
+            $(this).dialog("close");
           }
         },
         {
