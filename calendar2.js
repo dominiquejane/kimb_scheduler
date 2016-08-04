@@ -1,15 +1,18 @@
 window.httpOptionsRootUri = 'https://schedule-aggregator.kbi.bcx.zone';
 
 $(document).ready(function() {
+    var calendarData = {};
+
     var getSchedule = function (startDate, endDate, timezone, setCalendarEvents) {
         var calendarData = loadSchedule(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
         var appointments = getTimeblocks(calendarData);
+        var filteredAppointments = getFilteredAppointments(appointments);
 
-        setCalendarEvents(appointments);
+        setCalendarEvents(filteredAppointments);
     };
 
     var loadSchedule = function (startDate, endDate) {
-        var calendarData = {};
+        var results;
 
         $.get({
             async: false,
@@ -19,12 +22,12 @@ $(document).ready(function() {
             end: endDate
         }).done(function (data) {
             calendarData = data;
-            console.log('testing data pull', data);
+            results = data;
         }).fail(function (data) {
             console.log('error loading schedules', data);
         });
 
-        return calendarData;
+        return results;
     };
 
     var getTimeblocks = function (calendarData) {
@@ -33,26 +36,114 @@ $(document).ready(function() {
             var staff = getStaff(calendarData, timeBlock.staff_id);
             var client = getClient(calendarData, timeBlock.client_id);
 
-            console.log(timeBlock, time, staff, client);
-
             timeBlock.title = staff.last_name + " " + time + " " +  client.name;
 
             return timeBlock;
         });
     };
 
-    var getStaff = function(calendarData, staffId) {
+    var getStaff = function (calendarData, staffId) {
         staff = _.findWhere(calendarData.staff, {id: staffId});
         staff = (staff === undefined) ? {last_name: ''} : staff;
 
         return staff;
     };
 
-    var getClient = function(calendarData, clientId) {
+    var getClient = function (calendarData, clientId) {
         client = _.findWhere(calendarData.clients, {id: clientId});
         client = (client === undefined) ? {name: ''} : client;
 
         return client;
+    };
+
+    var getCheckedIdsFor = function (type) {
+        var itemIds = [];
+
+        $('.' + type + '-check-group input').each(function () {
+            if (! $(this).prop('checked')) {
+                return;
+            }
+
+            var itemId = $(this).data('id');
+
+            if (! isNaN(parseFloat(itemId)) && isFinite(itemId)) {
+                itemIds.push(Number(itemId));
+            }
+        });
+
+        return itemIds;
+    };
+
+    var getFilteredAppointments = function (appointments) {
+        var staffIds = getCheckedIdsFor('staff');
+        var clientIds = getCheckedIdsFor('location');
+
+        filteredAppointments = _.filter(appointments, function (appointment) {
+            return ((_.contains(staffIds, appointment.staff_id))
+                && (_.contains(clientIds, appointment.client_id)));
+        });
+
+        return filteredAppointments;
+    };
+
+    var filterCalendarAppointments = function () {
+        var appointments = getTimeblocks(calendarData);
+        var filteredAppointments = getFilteredAppointments(appointments);
+
+        $('#calendar').fullCalendar('removeEvents');
+        $('#calendar').fullCalendar('addEventSource', filteredAppointments);
+        $('#calendar').fullCalendar('refetchEvents');
+    };
+
+    var toggleFilter = function (event) {
+        if ($(event.target).hasClass('form-group')) {
+            $checkbox = $(event.target).find('input');
+            isChecked = $checkbox.prop('checked');
+            $(event.target).find('input').prop('checked', ! isChecked);
+
+            filterCalendarAppointments();
+        }
+    };
+
+    var getFilterHtml = function (id, name, type, color, backgroundcolor) {
+        return '        <div class="form-group ' + type + '-check-group">' +
+        '            <input type="checkbox" id="' + id + '-' + name + '" data-id="' + id + '" data-name="' + name + '" autocomplete="off">' +
+        '            <div class="filter btn-group">' +
+        '                <label for="' + id + '-' + name + '" class="btn" style="color: ' + color + '; background-color: ' + backgroundcolor + ';">' +
+        '                    <span class="glyphicon glyphicon-ok" style="color: ' + color + ';"></span>' +
+        '                    <span>&nbsp;</span>' +
+        '                </label>' +
+        '                <label for="all-physician" class="btn checkbox-label">' +
+        '                    ' + name +
+        '                </label>' +
+        '            </div>' +
+        '        </div>';
+    };
+
+    var renderClientFilters = function () {
+        var allHtml = getFilterHtml('all', 'ALL', 'location', '#333', '#fff');
+
+        $('#location').append(allHtml);
+
+        _.map(calendarData.clients, function (client) {
+            var color = (client.color === undefined) ? '#333' : '#fff';
+            var html = getFilterHtml(client.id, client.name, 'location', color, client.color);
+
+            $('#location').append(html);
+        });
+    };
+
+    var renderStaffFilters = function () {
+        var allHtml = getFilterHtml('all', 'ALL', 'staff', '#333', '#fff');
+
+        $('#staff').append(allHtml);
+
+        _.map(calendarData.staff, function (staff) {
+            var color = (staff.color === undefined) ? '#333' : '#fff';
+            var html = getFilterHtml(staff.id, staff.last_name, 'staff', color, staff.color);
+
+            $('#staff').append(html);
+        });
     };
 
     $('#calendar').fullCalendar({
@@ -70,12 +161,17 @@ $(document).ready(function() {
         eventSources: getSchedule
     });
 
+    renderClientFilters();
+    renderStaffFilters();
 
-var currentData = []; //data that is currently on calendar
-var availableData = [];
-var staff = []; // = calendarData.staff;
-var clients = []; //= calendarData.clients;
+    $('.staff-check-group').on('click', toggleFilter);
+    $('.location-check-group').on('click', toggleFilter);
 
+
+
+
+
+/*
 
 var year;
 var month;
@@ -523,6 +619,6 @@ $("input:checkbox").not(document.getElementsByName('all')).not('#reschedule-chec
 
 
 
+*/
 
-
-})
+});

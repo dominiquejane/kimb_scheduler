@@ -1,3 +1,7 @@
+.form-group * {
+    pointer-events: none;
+}
+
 .form-group input[type="checkbox"] {
     display: none;
 }
@@ -10,15 +14,16 @@
     display: none;
 }
 .form-group input[type="checkbox"] + .btn-group > label span:last-child {
-    display: inline-block;   
+    display: inline-block;
 }
 
 .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
     display: inline-block;
 }
 .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
-    display: none;   
+    display: none;
 }
+
 
 
 /*castro
@@ -29,8 +34,8 @@ patel
 champion
 read
 katekaru
-long 
-rezenters 
+long
+rezenters
 */
 
 .checkbox-label {
@@ -43,22 +48,23 @@ rezenters
 
 
 .glyphicon-ok {
-	color: #fff;
+	/*color: #fff;*/
 }
 
 .btn.all-staff .glyphicon-ok, .btn.all-location .glyphicon-ok {
-	color:#000;
+	/*color:#000;*/
 }
 
 .btn-group label {
-	padding: 3px 6px;
-  font-size: 13px;
-  line-height: 1.5;
-  border-radius: 3px;
+    padding: 3px 6px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-radius: 3px;
+    border: 1px solid #333;
 }
 
 .btn:hover, .btn:active, .btn:focus {
-	color: #000;
+	/*color: #000;*/
 }
 
 .all-location, .all-staff,
