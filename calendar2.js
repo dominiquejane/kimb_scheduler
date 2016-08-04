@@ -1,220 +1,19 @@
 window.httpOptionsRootUri = 'https://schedule-aggregator.kbi.bcx.zone';
 
 $(document).ready(function() {
-    init();
 
-    var init = function () {
-        $('#calendar').fullCalendar({
-            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-            defaultView: 'month',//'agendaDay',
-            slotDuration: {minutes: 15}, //required
-            slotEventOverlap: false,
-            header: {
-                left: 'title',
-                center: 'prev,next today',
-                right:  'month,agendaWeek,agendaDay'
-            },
-            hiddenDays: [0,6],
-            eventLimit: true,
-            eventSources: {
-                url: window.httpOptionsRootUri + '/api/schedule',
-                type: 'GET',
-                error: function (error) {
-                    console.log('calendar load error', error);
-                }
-            },
-            viewRender: loadView
-        });
-    };
-
-    var loadView = function () {
-        var currentView = $('#calendar').fullCalendar('getView').type;
-
-        switch (currentView) {
-            case 'agendaDay':
-                console.log("agendaDay");
-                break;
-            case 'agendaWeek':
-                console.log("agendaWeek");
-                getWeek();
-                break;
-            default:
-                console.log("month");
-                getMonth();
-                break;
-        }
-    };
-
-
-//001: holden, 002: patel, 003:read
-//100: kvf, 200: dsc, 300: frt
-// var calendarData ={
-//     "appointments": [
-//       {
-//         "start" : "2016-07-28 06:15:00",
-//         "end" : "2016-07-28 06:30:00",
-//         "title" : "holden frt",
-//         "id": 001,
-//         "patient_id": 101,
-//         "rescheduled_at": "",
-//         "client_id": 300, //location
-//         "staff_id": 001,
-//         "type" : "Appointment",
-//         "status": "exercitation ut enim Duis",
-//       },
-//       {
-//         "start" : "2016-07-28 06:15:00",
-//         "end" : "2016-07-28 06:30:00",
-//         "title" : "holden dsc",
-//         "id": 001,
-//         "patient_id": 101,
-//         "rescheduled_at": "",
-//         "client_id": 200, //location
-//         "staff_id": 001,
-//         "type" : "Appointment",
-//         "status": "exercitation ut enim Duis",
-//       },
-//       {
-//         "title" : "holden kvf",
-//         "start" : "2016-07-28 06:15:00",
-//         "end" : "2016-07-28 06:30:00",
-//         "id": 002,
-//         "patient_id": 102,
-//         "rescheduled_at": "",
-//         "client_id": 100, //location
-//         "staff_id": 001,
-//         "type" : "Appointment",
-//         "status": "exercitation ut enim Duis",
-//       },
-//       {
-//         "title" : "patel dsc",
-//         "start" : "2016-07-28 07:15:00",
-//         "end" : "2016-07-28 07:45:00",
-//         "end" : "",
-//         "id": 003,
-//         "patient_id": 103,
-//         "rescheduled_at": "",
-//         "client_id": 200, //location
-//         "staff_id": 002,
-//         "type" : "Appointment",
-//         "status": "exercitation ut enim Duis",
-//       },
-//       {
-//         "title" : "patel frt",
-//         "start" : "2016-07-28 08:15:00",
-//         "end" : "2016-07-28 08:45:00",
-//         "id": 004,
-//         "patient_id": 104,
-//         "rescheduled_at": "",
-//         "client_id": 300, //location
-//         "staff_id": 002,
-//         "type" : "Appointment",
-//         "status": "exercitation ut enim Duis",
-//       }
-//     ],
-//     "classes": [
-//       {
-//         "attendees": ["parvati", "amanda", "cerie"],
-//         "title" : "read dsc",
-//         "start" : "2016-07-28 08:15:00",
-//         "end" : "2016-07-28 09:30:00",
-//         "id": 2.1188895e+07,
-//         "client_id": 200, //location
-//         "type" : "Class",
-//         "staff_id": 003,
-//       },
-//       {
-//         "attendees": ["eliza", "ami", "fairplay", "kathy", "mikey", "chet"],
-//         "title" : "read dsc",
-//         "start" : "2016-07-28 09:15:00",
-//         "end" : "2016-07-28 10:30:00",
-//         "id": 2.1188895e+07,
-//         "client_id": 200, //location
-//         "type" : "Class",
-//         "staff_id": 003,
-//       },
-//       {
-//         "attendees": ["ozzy", "james", "jason", "eric"],
-//         "title" : "holden anim",
-//         "start" : "2016-07-28 10:15:00",
-//         "end" : "2016-07-28 11:30:00",
-//         "id": 2.1188895e+07,
-//         "client_id": 300, //location
-//         "type" : "Class",
-//         "staff_id": 001,
-//       }
-//     ],
-//     "time-blocks": [
-//       {
-//         "staff_id": 002,
-//         "client_id": 200, //location
-//         "title" : "patel dsc",
-//         "start" : "2016-07-28 06:45:00",
-//         "allDay" : true,
-//         "type" : "Time Block",
-//         "end" : "2016-07-28 07:00:00",
-//       },
-//       {
-//         "staff_id": 003,
-//         "client_id": 100, //location
-//         "title" : "read kvf",
-//         "start" : "2016-07-28 08:45:00",
-//         "allDay" : true,
-//         "type" : "Time Block",
-//         "end" : "2016-07-28 11:00:00",
-//       },
-//       {
-//         "staff_id": 001,
-//         "client_id": 100, //location
-//         "title" : "holden kvc",
-//         "start" : "2016-07-28 06:45:00",
-//         "allDay" : true,
-//         "type" : "Time Block",
-//         "end" : "2016-07-28 07:00:00",
-//       }
-//     ], //all data from initial get request, should not be changed except on page reload
-//     "staff" : [
-//     	{
-//     		"id" : 001,
-//     		"last_name" : "holden",
-//     	},
-//     	{
-//     		"id" : 002,
-//     		"last_name" : "patel",
-//     	},
-//     	{
-//     		"id" : 003,
-//     		"last_name" : "read",
-//     	}
-//     ],
-//     "clients" : [
-//     	{
-//     		"id" : 100,
-//     		"name" : "kvf"
-//     	},
-//     	{
-//     		"id" : 200,
-//     		"name" : "dsc",
-//     	},
-//     	{
-//     		"id" : 300,
-//     		"name" : "frt",
-//     	}
-//     ]
-//   };
-
-var calendarData = {};
-
-var loadCalendarData = function (startDate, endDate) {
-    $.get(scheduleGetEndpoint, {
-        start: startDate,
-        end: endDate
-    }).done(function (data) {
-        calendarData = data;
-    }).fail(function (data) {
-        console.log('error getting schedule', data);
-    });
-};
+$.get({
+    async: false,
+    url: window.httpOptionsRootUri + '/api/schedule'
+}, {
+    start: '',
+    end: ''
+}).done(function (data) {
+    calendarData = data;
+    console.log('testing data pull', data);
+}).fail(function (data) {
+    console.log('error loading schedules', data);
+});
 
 var currentData = []; //data that is currently on calendar
 var availableData = [];
@@ -230,7 +29,7 @@ var calendarDate;
 //get year data
 var getYear = function() {
 	year = moment().year();
-};
+}
 // get month data
 // -only render timeblocks
 var getMonth = function(month) {
@@ -243,7 +42,7 @@ var getMonth = function(month) {
 	availableData = calendarData["time-blocks"];
 	currentData = getChecked(availableData, currentData);
 	reloadCalendar();
-};
+}
 
 var formatTimeblocks = function() {
 	staff = calendarData.staff;
@@ -255,10 +54,10 @@ var formatTimeblocks = function() {
 		var person = getStaffName(el.staff_id);
 		var location = getClientName(el.client_id);
 		el.title = person + " " + time + " " +  location;
-	});
+	})
 
 	// return calendarData["time-blocks"];
-};
+}
 
 
 // get week data: send range
@@ -273,7 +72,7 @@ var getWeek = function(range1, range2) {
 	// availableData = calendarData.appointments.concat(calendarData.classes).concat(calendarData['time-blocks']);
 	// currentData = getChecked(availableData, currentData);
 	// reloadCalendar();
-};
+}
 
 // get day data
 // -render appt, classes
@@ -282,14 +81,7 @@ var getWeek = function(range1, range2) {
 	var getCalendarDate = function() {
 		calendarDate = $('#calendar').fullCalendar('getDate');
 		calendarDate = calendarDate.format();
-	};
-
-	// getCalendarDate();
-	// console.log(calendarDate);
-
-var viewChange = function() {
-	//grab data
-};
+	}
 
 
 
@@ -303,7 +95,7 @@ var getStaffName = function(id) {
   	}
   }
   return person;
-};
+}
 
 var getClientName = function(id) {
 	var client = "";
@@ -318,7 +110,7 @@ var getClientName = function(id) {
   	}
   }
   return client;//not using
-};
+}
 
 
 //physician
@@ -416,10 +208,10 @@ var reloadCalendar = function() {
   if(rescheduleToggle) {
   	rescheduler();
   }
-  console.log("final current", currentData);
-  console.log("final available", availableData);
+  console.log("final current", currentData)
+  console.log("final available", availableData)
 
-};
+}
 
 var blankCalendar = function() {
 
@@ -427,7 +219,7 @@ var blankCalendar = function() {
   $('#calendar').fullCalendar('addEventSource', []);
   $('#calendar').fullCalendar('refetchEvents');
 
-};
+}
 
 var staff_validator = "";
 var location_validator = "";
@@ -438,13 +230,13 @@ var location_validator_function = function() {
     if ($(this).prop('checked')){
       checkbox = true;
     }
-});
+  })
   if (checkbox) {
       location_validator = "1";
     } else {
       location_validator = "";
     } //would it be better to use a counter to track validator, (clicks = i++, unclicks = i-- )?
-};
+}
 
 var staff_validator_function = function() {
   var checkbox = false;
@@ -452,13 +244,13 @@ var staff_validator_function = function() {
     if ($(this).prop('checked')){
       checkbox = true;
     }
-});
+  })
   if (checkbox) {
       staff_validator = "1";
     } else {
       staff_validator = "";
     }
-};
+}
 
 var getChecked = function(start, end, id) {
 		$('.location-check-group').each(function() {
@@ -493,9 +285,9 @@ var getChecked = function(start, end, id) {
 							}
 						}
 					}
-				});
+				})
 			}
-		});
+		})
 		availableData = start;
 		return end;
 	};
@@ -518,7 +310,7 @@ var getUnchecked = function(start, end, id) {
 	// console.log(start);
 	availableData = end;
 	return start;
-};
+}
 
 var getRescheduled = function(start, end) {
 	var start_copy = start;
@@ -530,7 +322,7 @@ var getRescheduled = function(start, end) {
 	}
 	availableData = end;
 	return start;
-};
+}
 
 
 var clickFilter = function(checkbox) {
@@ -561,7 +353,7 @@ var clickFilter = function(checkbox) {
   else {
   	blankCalendar();
   }
-};
+}
 
 $("input:checkbox").not(document.getElementsByName('all')).not('#reschedule-checkbox').on('click', function(){
 	var that = $(this);
@@ -573,10 +365,11 @@ $("input:checkbox").not(document.getElementsByName('all')).not('#reschedule-chec
 
 
 
+$('#calendar').fullCalendar({
 
     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     defaultView: 'month',//'agendaDay',
-    
+
     slotDuration: {minutes: 15}, //required
     slotEventOverlap: false,
     header: {
@@ -616,18 +409,25 @@ console.log("month");
 			// 		console.log("data from ajax", data);
 			// 	})
 
-			
+
     	} else if (viewNow === 'agendaWeek') {
     		console.log("week");
     		// getWeek();
     	} else if (viewNow === 'agendaDay') {
     		console.log("day");
     	}
-      
+
     },
     // eventRender: function() {
-      
+
     // }
+
+
+   })
+
+
+
+
 
 
 	//add datepicker button to calendar
@@ -641,7 +441,7 @@ console.log("month");
       buttonText: '<span class="glyphicon glyphicon-chevron-down"></span>',
       //changes date on fullCalendar when date selected in datepicker
       onSelect: function(dateText) {
-        $('#calendar').fullCalendar( 'gotoDate', dateText );
+        $('#calendar').fullCalendar( 'gotoDate', dateText )
       }
   });
 
@@ -649,12 +449,12 @@ console.log("month");
 
   //add add-appointment button to calendar
   //add rechedule button to calendar
-    $('.fc-toolbar .fc-right .fc-button-group')
+  $('.fc-toolbar .fc-right .fc-button-group')
   	// .after('<div id="reschedule-btn"><img src="./icons/Reschedule.png" id="reschedule-img" /></div>')
   	// .after('<button id="reschedule-btn">Rescheduled</button>')
-  	    .after('<div id="add-appt-bg"><img src="./icons/plusButton.png" id="add-appt-btn" /></div>');
+  	.after('<div id="add-appt-bg"><img src="./icons/plusButton.png" id="add-appt-btn" /></div>');
 
-    $('#add-appt-bg').on('click', function() {
+  $('#add-appt-bg').on('click', function() {
     $('#dialog').dialog({
       height: 300,
       modal: true,
@@ -677,7 +477,7 @@ console.log("month");
         }
       ]
     });
-});
+  })
 
 
   var rescheduleToggle = false;
@@ -692,17 +492,16 @@ console.log("month");
   		reloadCalendar();
   	} else {
   		getChecked(availableData, currentData);
-  		reloadCalendar();
+  		reloadCalendar
   	}
-};
+  }
 
   $('#reschedule-checkbox').on('click', function() {
   	console.log("reschedule button clicked");
   	rescheduleToggle = !rescheduleToggle;
   	rescheduler();
 
-});
-});
+  })
 
 
 
