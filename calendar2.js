@@ -224,13 +224,6 @@ var getWeek = function(range1, range2) {
 		calendarDate = calendarDate.format();
 	}
 
-	// getCalendarDate();
-	// console.log(calendarDate);
-
-var viewChange = function() {
-	//grab data
-}
-
 
 
 var getStaffName = function(id) {
