@@ -162,12 +162,11 @@ var staff = []; // = calendarData.staff;
 var clients = []; //= calendarData.clients;
 
 
-
 var year;
 var month;
 var week;
 var day;
-var calendarDate
+var calendarDate;
 //get year data
 var getYear = function() {
 	year = moment().year();
@@ -370,8 +369,8 @@ var blankCalendar = function() {
 
 }
 
-var staff_validator = 0;
-var location_validator = 0;
+var staff_validator = "";
+var location_validator = "";
 
 var location_validator_function = function() {
   var checkbox = false;
@@ -386,8 +385,6 @@ var location_validator_function = function() {
       location_validator = "";
     } //would it be better to use a counter to track validator, (clicks = i++, unclicks = i-- )?
 }
-
-
 
 var staff_validator_function = function() {
   var checkbox = false;
@@ -489,70 +486,6 @@ var clickFilter = function(checkbox) {
 		return;
 	}
 
-	// function getChecked(start, end, id) {
-	// 	$('.location-check-group').each(function() {
-	// 		if($(this).is(':checked')){
-	// 			var l = $(this).context.name;
-	// 			if (l === "all") {
-	// 				return;
-	// 			}
-	// 			var client_id = Number(l);
-	// 			// console.log($(this));
-	// 			// console.log("location", client_id);
-	// 			$('.staff-check-group').each(function() {
-	// 				if($(this).is(':checked')) {
-	// 					var s = $(this).context.name;
-	// 					if (s === "all") {
-	// 						return;
-	// 					}
-	// 					var staff_id = Number(s);
-	// 					// console.log("staff", staff_id)
-	// 					var start_copy = start;
-	// 					// console.log("getcheck start", start);
-
-	// 					for (var i = start_copy.length - 1; i >= 0; i--){
-	// 						// console.log(start[i].client_id, client_id);
-	// 						// console.log(start[i].staff_id, staff_id);
-	// 						if ((start[i].client_id === client_id) && (start[i].staff_id === staff_id)){
-	// 							var val = start.splice(i, 1);
-	// 							// console.log("getcheck spliced item", val);
-	// 							// console.log("getcheck spliced array", start);
-	// 							end = end.concat(val);
-	// 							// console.log("getcheck end array", end);
-	// 						}
-	// 					}
-	// 				}
-	// 			})
-	// 		}
-	// 	})
-	// 	availableData = start;
-	// 	return end;
-	// };
-
-
-	// function getUnchecked(start, end, id) {
-	// 	// console.log("getUncheck start", start);
-	// 	// console.log("getuncheck id", id);
-	// 	var start_copy = start;
-	// 	for (var i = start_copy.length -1; i >=0; i--) {
-	// 		if (start[i].client_id == id || start[i].staff_id == id) {
-	// 			// console.log(start[i], id)
-	// 			var val = start.splice(i, 1);
-	// 							// console.log("getuncheck spliced array", start);
-	// 							// console.log("getuncheck spliced item", val);
-	// 			end = end.concat(val);
-	// 							// console.log("getuncheck end array", end);
-	// 			// console.log(end);
-	// 		}
-	// 	}
-	// 	// console.log(start);
-	// 	availableData = end;
-	// 	return start;
-	// }
-
-	// console.log("check", check);
-	// console.log("current", currentData);
-	// console.log("available", availableData);
 	if (check) {
 		currentData = getChecked(availableData, currentData, id);
 	} else {
@@ -598,15 +531,15 @@ $('#calendar').fullCalendar({
     viewRender: function() {
       var viewNow = $('#calendar').fullCalendar('getView').type;
     	if (viewNow === 'month') {
-    		getMonth();
+    		// getMonth();
 
     	// 	$.getJSON("http://3rp3nqzhyogdimm68-mock.stoplight-proxy.io/api/schedule/2016/01/01", function(data) {
 			  // 	//availableData = data;
 			  // 	console.log(data);
 			  // })
-
-			// $.getJSON("https://schedule-aggregator.kbi.bcx.zone/api/time-blocks/seed", function(data) {
-			// 		  	//availableData = data;
+console.log("month");
+			// $.getJSON("https://schedule-aggregator.kbi.bcx.zone/api/schedule", function(data) {
+			// 		  	//calendarData = data;
 			// 		  	console.log(data);
 			// 		  })
 			// console.log("starting request");
@@ -624,23 +557,10 @@ $('#calendar').fullCalendar({
 			// 		console.log("data from ajax", data);
 			// 	})
 
-
-			// staff = data.staff;
-	  	// clients = data.clients;
-	  	// var timeblocks = data["time-blocks"];
-	  	// timeblocks.map(function(el, i, arr) {
-	  	// 	var time = $.fullCalendar.formatRange(el.start, el.end, 'h(:mm)t');
-	  	// 	console.log("formatted time", time);
-	  	// 	var person = getStaffId(el.staff_id);
-	  	// 	var location = getClientId(el.client_id);
-	  	// 	el.title = time + " " + person + " " + location;
-	  	// })
-	  	// console.log("timeblocks after formatting ", timeblocks);
-	  	// availableData = timeblocks;
 			
     	} else if (viewNow === 'agendaWeek') {
     		console.log("week");
-    		getWeek();
+    		// getWeek();
     	} else if (viewNow === 'agendaDay') {
     		console.log("day");
     	}
@@ -730,7 +650,6 @@ $('#calendar').fullCalendar({
   	rescheduler();
 
   })
-
 
 
 

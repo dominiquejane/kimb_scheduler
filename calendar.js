@@ -615,10 +615,6 @@ var clickFilter = function() {
 
 
 
-
-
-
-
  //add datepicker button to calendar
   $('.fc-toolbar .fc-center .fc-today-button').after(
     $('<input type="text" id="date-picker">')
