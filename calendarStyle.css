@@ -65,9 +65,32 @@ button.ui-dialog-titlebar-close {
 	display: none;
 }
 
+/*reschedule button*/
+/*#reschedule-btn {
+	height: 2.1em;
+	margin: 0px 5px 0px 0px;
+	border-radius: 5px;
+	border: 1px solid #853C3C;
+	background-color: #E43F3F;
+	color: #fff;
+	/*border: 1px solid #853C3C;
+	background-color: #E43F3F;
+	color: #fff;*//*
+	font-family: 'Avenir Next Condensed';
+	letter-spacing: 0.5px;
+}
 
+#reschedule-btn:hover {
+	cursor: pointer;
+}
 
+#reschedule-btn:active, #reschedule-btn:focus {
+	outline: none;
+}
 
+#reschedule-btn:active {
+	box-shadow: inset 0px 0px 2px 1px #AB3030;
+}*/
 
 
 /**/

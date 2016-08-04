@@ -69,6 +69,11 @@ rezenters
 	border: 1px solid #ADADAD;
 }
 
+.reschedule-checkbox, .reschedule-checkbox:focus, .reschedule-checkbox:hover, .reschedule-checkbox:active {
+	background-color: #E43F3F;
+	border: 1px solid #E43F3F;
+}
+
 .castro, .castro:focus, .castro:hover, .castro:active {
 	background-color: #15B6F2;
 	border: 1px solid #15B6F2;

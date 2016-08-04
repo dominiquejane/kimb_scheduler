@@ -264,3 +264,64 @@ $('.location-check-group').each(function() {
         }
       })
       
+
+
+var getChecked = function(start, end, id) {
+		$('.location-check-group').each(function() {
+			if($(this).is(':checked')){
+				var l = $(this).context.name;
+				if (l === "all") {
+					return;
+				}
+				var client_id = Number(l);
+				// console.log($(this));
+				// console.log("location", client_id);
+				$('.staff-check-group').each(function() {
+					if($(this).is(':checked')) {
+						var s = $(this).context.name;
+						if (s === "all") {
+							return;
+						}
+						var staff_id = Number(s);
+						// console.log("staff", staff_id)
+						var start_copy = start;
+						// console.log("getcheck start", start);
+
+						for (var i = start_copy.length - 1; i >= 0; i--){
+							// console.log(start[i].client_id, client_id);
+							// console.log(start[i].staff_id, staff_id);
+							if ((start[i].client_id === client_id) && (start[i].staff_id === staff_id)){
+								var val = start.splice(i, 1);
+								// console.log("getcheck spliced item", val);
+								// console.log("getcheck spliced array", start);
+								end = end.concat(val);
+								// console.log("getcheck end array", end);
+							}
+						}
+					}
+				})
+			}
+		})
+		availableData = start;
+		return end;
+	};
+
+var getUnchecked = function(start, end, id) {
+		// console.log("getUncheck start", start);
+		// console.log("getuncheck id", id);
+		var start_copy = start;
+		for (var i = start_copy.length -1; i >=0; i--) {
+			if (start[i].client_id == id || start[i].staff_id == id) {
+				// console.log(start[i], id)
+				var val = start.splice(i, 1);
+								// console.log("getuncheck spliced array", start);
+								// console.log("getuncheck spliced item", val);
+				end = end.concat(val);
+								// console.log("getuncheck end array", end);
+				// console.log(end);
+			}
+		}
+		// console.log(start);
+		availableData = end;
+		return start;
+	}
