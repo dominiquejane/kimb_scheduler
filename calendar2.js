@@ -1,19 +1,75 @@
 window.httpOptionsRootUri = 'https://schedule-aggregator.kbi.bcx.zone';
 
 $(document).ready(function() {
+    var getSchedule = function (startDate, endDate, timezone, setCalendarEvents) {
+        var calendarData = loadSchedule(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+        var appointments = getTimeblocks(calendarData);
 
-$.get({
-    async: false,
-    url: window.httpOptionsRootUri + '/api/schedule'
-}, {
-    start: '',
-    end: ''
-}).done(function (data) {
-    calendarData = data;
-    console.log('testing data pull', data);
-}).fail(function (data) {
-    console.log('error loading schedules', data);
-});
+        setCalendarEvents(appointments);
+    };
+
+    var loadSchedule = function (startDate, endDate) {
+        var calendarData = {};
+
+        $.get({
+            async: false,
+            url: window.httpOptionsRootUri + '/api/schedule'
+        }, {
+            start: startDate,
+            end: endDate
+        }).done(function (data) {
+            calendarData = data;
+            console.log('testing data pull', data);
+        }).fail(function (data) {
+            console.log('error loading schedules', data);
+        });
+
+        return calendarData;
+    };
+
+    var getTimeblocks = function (calendarData) {
+        return _.map(calendarData['time-blocks'], function (timeBlock) {
+            var time = $.fullCalendar.formatRange(timeBlock.start, timeBlock.end, 'h(:mm)t');
+            var staff = getStaff(calendarData, timeBlock.staff_id);
+            var client = getClient(calendarData, timeBlock.client_id);
+
+            console.log(timeBlock, time, staff, client);
+
+            timeBlock.title = staff.last_name + " " + time + " " +  client.name;
+
+            return timeBlock;
+        });
+    };
+
+    var getStaff = function(calendarData, staffId) {
+        staff = _.findWhere(calendarData.staff, {id: staffId});
+        staff = (staff === undefined) ? {last_name: ''} : staff;
+
+        return staff;
+    };
+
+    var getClient = function(calendarData, clientId) {
+        client = _.findWhere(calendarData.clients, {id: clientId});
+        client = (client === undefined) ? {name: ''} : client;
+
+        return client;
+    };
+
+    $('#calendar').fullCalendar({
+        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+        defaultView: 'month',
+        slotDuration: {minutes: 15},
+        slotEventOverlap: false,
+        header: {
+            left: 'title',
+            center: 'prev,next today',
+            right:  'month,agendaWeek,agendaDay'
+        },
+        hiddenDays: [0,6],
+        eventLimit: true,
+        eventSources: getSchedule
+    });
+
 
 var currentData = []; //data that is currently on calendar
 var availableData = [];
@@ -26,6 +82,11 @@ var month;
 var week;
 var day;
 var calendarDate;
+
+
+
+
+
 //get year data
 var getYear = function() {
 	year = moment().year();
@@ -43,22 +104,6 @@ var getMonth = function(month) {
 	currentData = getChecked(availableData, currentData);
 	reloadCalendar();
 }
-
-var formatTimeblocks = function() {
-	staff = calendarData.staff;
-	clients = calendarData.clients;
-	// var timeblocks = data["time-blocks"]
-	// timeblocks.map(function(el, i, arr) {
-	calendarData["time-blocks"].map(function(el, i, arr) {
-		var time = $.fullCalendar.formatRange(el.start, el.end, 'h(:mm)t');
-		var person = getStaffName(el.staff_id);
-		var location = getClientName(el.client_id);
-		el.title = person + " " + time + " " +  location;
-	})
-
-	// return calendarData["time-blocks"];
-}
-
 
 // get week data: send range
 // -render timeblocks, appt, classes
@@ -82,36 +127,6 @@ var getWeek = function(range1, range2) {
 		calendarDate = $('#calendar').fullCalendar('getDate');
 		calendarDate = calendarDate.format();
 	}
-
-
-
-var getStaffName = function(id) {
-	var person = "";
-  for (var i = 0; i < staff.length; i++) { //get #id
-  	// console.log("name", staff[i].last_name, "id", id);
-  	if(staff[i].id === id) {
-  		person = staff[i].last_name;
-  		break;
-  	}
-  }
-  return person;
-}
-
-var getClientName = function(id) {
-	var client = "";
-  for (var i = 0; i < clients.length; i++) { //get #id
-  	if(clients[i].id === id) {
-  		// console.log("name on client array:", clients[i].name);
-  		// console.log("name being compared against clients name: ", id);
-  		client = clients[i].name;
-  		// console.log("id being assigned to client variable: ", client);
-
-  		break;
-  	}
-  }
-  return client;//not using
-}
-
 
 //physician
   $("input:checkbox.physician-check-group").not('#all-physician').click(function() {
@@ -365,65 +380,65 @@ $("input:checkbox").not(document.getElementsByName('all')).not('#reschedule-chec
 
 
 
-$('#calendar').fullCalendar({
-
-    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-    defaultView: 'month',//'agendaDay',
-
-    slotDuration: {minutes: 15}, //required
-    slotEventOverlap: false,
-    header: {
-        left: 'title',
-        center: 'prev,next today',
-        right:  'month,agendaWeek,agendaDay'
-    },
-    hiddenDays: [0,6],
-    eventLimit: true,
-    eventSources: currentData,
-    viewRender: function() {
-      var viewNow = $('#calendar').fullCalendar('getView').type;
-    	if (viewNow === 'month') {
-    		// getMonth();
-
-    	// 	$.getJSON("http://3rp3nqzhyogdimm68-mock.stoplight-proxy.io/api/schedule/2016/01/01", function(data) {
-			  // 	//availableData = data;
-			  // 	console.log(data);
-			  // })
-console.log("month");
-			// $.getJSON("https://schedule-aggregator.kbi.bcx.zone/api/schedule", function(data) {
-			// 		  	//calendarData = data;
-			// 		  	console.log(data);
-			// 		  })
-			// console.log("starting request");
-			// 	$.ajax({
-			// 		method: "GET",
-			// 		dataType: 'json',
-			// 		crossDomain: true,
-			// 		//data: ,//info specifying which data to get
-			// 		headers: {
-			// 			"Access-Control-Allow-Origin" : "*"
-			// 		},
-			// 		// url: "http://3rp3nqzhyogdimm68-mock.stoplight-proxy.io/api/schedule/2016/01/01",
-			// 		url: " https://schedule-aggregator.kbi.bcx.zone/api/time-blocks/seed",
-			// 	}).done(function(data) {
-			// 		console.log("data from ajax", data);
-			// 	})
-
-
-    	} else if (viewNow === 'agendaWeek') {
-    		console.log("week");
-    		// getWeek();
-    	} else if (viewNow === 'agendaDay') {
-    		console.log("day");
-    	}
-
-    },
+// $('#calendar').fullCalendar({
+//
+//     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+//     defaultView: 'month',//'agendaDay',
+//
+//     slotDuration: {minutes: 15}, //required
+//     slotEventOverlap: false,
+//     header: {
+//         left: 'title',
+//         center: 'prev,next today',
+//         right:  'month,agendaWeek,agendaDay'
+//     },
+//     hiddenDays: [0,6],
+//     eventLimit: true,
+//     eventSources: getSchedule,
+//     viewRender: function() {
+//       var viewNow = $('#calendar').fullCalendar('getView').type;
+//     	if (viewNow === 'month') {
+//     		// getMonth();
+//
+//     	// 	$.getJSON("http://3rp3nqzhyogdimm68-mock.stoplight-proxy.io/api/schedule/2016/01/01", function(data) {
+// 			  // 	//availableData = data;
+// 			  // 	console.log(data);
+// 			  // })
+// console.log("month");
+// 			// $.getJSON("https://schedule-aggregator.kbi.bcx.zone/api/schedule", function(data) {
+// 			// 		  	//calendarData = data;
+// 			// 		  	console.log(data);
+// 			// 		  })
+// 			// console.log("starting request");
+// 			// 	$.ajax({
+// 			// 		method: "GET",
+// 			// 		dataType: 'json',
+// 			// 		crossDomain: true,
+// 			// 		//data: ,//info specifying which data to get
+// 			// 		headers: {
+// 			// 			"Access-Control-Allow-Origin" : "*"
+// 			// 		},
+// 			// 		// url: "http://3rp3nqzhyogdimm68-mock.stoplight-proxy.io/api/schedule/2016/01/01",
+// 			// 		url: " https://schedule-aggregator.kbi.bcx.zone/api/time-blocks/seed",
+// 			// 	}).done(function(data) {
+// 			// 		console.log("data from ajax", data);
+// 			// 	})
+//
+//
+//     	} else if (viewNow === 'agendaWeek') {
+//     		console.log("week");
+//     		// getWeek();
+//     	} else if (viewNow === 'agendaDay') {
+//     		console.log("day");
+//     	}
+//
+//     },
     // eventRender: function() {
 
     // }
 
 
-   })
+   // })
 
 
 
