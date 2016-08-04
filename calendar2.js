@@ -1,163 +1,22 @@
+window.httpOptionsRootUri = 'https://schedule-aggregator.kbi.bcx.zone';
+
 $(document).ready(function() {
 
-//001: holden, 002: patel, 003:read
-//100: kvf, 200: dsc, 300: frt
-var calendarData ={
-    "appointments": [
-      {
-        "start" : "2016-07-28 06:15:00",
-        "end" : "2016-07-28 06:30:00",
-        "title" : "holden frt",
-        "id": 001,
-        "patient_id": 101,
-        "rescheduled_at": "",
-        "client_id": 300, //location
-        "staff_id": 001,
-        "type" : "Appointment",
-        "status": "exercitation ut enim Duis",
-      },
-      {
-        "start" : "2016-07-28 06:15:00",
-        "end" : "2016-07-28 06:30:00",
-        "title" : "holden dsc",
-        "id": 001,
-        "patient_id": 101,
-        "rescheduled_at": "",
-        "client_id": 200, //location
-        "staff_id": 001,
-        "type" : "Appointment",
-        "status": "exercitation ut enim Duis",
-      },
-      {
-        "title" : "holden kvf",
-        "start" : "2016-07-28 06:15:00",
-        "end" : "2016-07-28 06:30:00",
-        "id": 002,
-        "patient_id": 102,
-        "rescheduled_at": "",
-        "client_id": 100, //location
-        "staff_id": 001,
-        "type" : "Appointment",
-        "status": "exercitation ut enim Duis",
-      },
-      {
-        "title" : "patel dsc",
-        "start" : "2016-07-28 07:15:00",
-        "end" : "2016-07-28 07:45:00",
-        "end" : "",
-        "id": 003,
-        "patient_id": 103,
-        "rescheduled_at": "",
-        "client_id": 200, //location
-        "staff_id": 002,
-        "type" : "Appointment",
-        "status": "exercitation ut enim Duis",
-      },
-      {
-        "title" : "patel frt",
-        "start" : "2016-07-28 08:15:00",
-        "end" : "2016-07-28 08:45:00",
-        "id": 004,
-        "patient_id": 104,
-        "rescheduled_at": "",
-        "client_id": 300, //location
-        "staff_id": 002,
-        "type" : "Appointment",
-        "status": "exercitation ut enim Duis",
-      }
-    ],
-    "classes": [
-      {
-        "attendees": ["parvati", "amanda", "cerie"],
-        "title" : "read dsc",
-        "start" : "2016-07-28 08:15:00",
-        "end" : "2016-07-28 09:30:00",
-        "id": 2.1188895e+07,
-        "client_id": 200, //location
-        "type" : "Class",
-        "staff_id": 003,
-      },
-      {
-        "attendees": ["eliza", "ami", "fairplay", "kathy", "mikey", "chet"],
-        "title" : "read dsc",
-        "start" : "2016-07-28 09:15:00",
-        "end" : "2016-07-28 10:30:00",
-        "id": 2.1188895e+07,
-        "client_id": 200, //location
-        "type" : "Class",
-        "staff_id": 003,
-      },
-      {
-        "attendees": ["ozzy", "james", "jason", "eric"],
-        "title" : "holden anim",
-        "start" : "2016-07-28 10:15:00",
-        "end" : "2016-07-28 11:30:00",
-        "id": 2.1188895e+07,
-        "client_id": 300, //location
-        "type" : "Class",
-        "staff_id": 001,
-      }
-    ],
-    "time-blocks": [
-      {
-        "staff_id": 002,
-        "client_id": 200, //location
-        "title" : "patel dsc",
-        "start" : "2016-07-28 06:45:00",
-        "allDay" : true,
-        "type" : "Time Block",
-        "end" : "2016-07-28 07:00:00",
-      },
-      {
-        "staff_id": 003,
-        "client_id": 100, //location
-        "title" : "read kvf",
-        "start" : "2016-07-28 08:45:00",
-        "allDay" : true,
-        "type" : "Time Block",
-        "end" : "2016-07-28 11:00:00",
-      },
-      {
-        "staff_id": 001,
-        "client_id": 100, //location
-        "title" : "holden kvc",
-        "start" : "2016-07-28 06:45:00",
-        "allDay" : true,
-        "type" : "Time Block",
-        "end" : "2016-07-28 07:00:00",
-      }
-    ], //all data from initial get request, should not be changed except on page reload
-    "staff" : [
-    	{
-    		"id" : 001,
-    		"last_name" : "holden",
-    	},
-    	{
-    		"id" : 002,
-    		"last_name" : "patel",
-    	},
-    	{
-    		"id" : 003,
-    		"last_name" : "read",
-    	}
-    ],
-    "clients" : [
-    	{
-    		"id" : 100,
-    		"name" : "kvf"
-    	},
-    	{
-    		"id" : 200,
-    		"name" : "dsc",
-    	},
-    	{
-    		"id" : 300,
-    		"name" : "frt",
-    	}
-    ]
-  };
+$.get({
+    async: false,
+    url: window.httpOptionsRootUri + '/api/schedule'
+}, {
+    start: '',
+    end: ''
+}).done(function (data) {
+    calendarData = data;
+    console.log('testing data pull', data);
+}).fail(function (data) {
+    console.log('error loading schedules', data);
+});
+
 var currentData = []; //data that is currently on calendar
-var availableData = []; 
+var availableData = [];
 var staff = []; // = calendarData.staff;
 var clients = []; //= calendarData.clients;
 
@@ -199,7 +58,7 @@ var formatTimeblocks = function() {
 
 	// return calendarData["time-blocks"];
 }
-	
+
 
 // get week data: send range
 // -render timeblocks, appt, classes
@@ -235,7 +94,7 @@ var getStaffName = function(id) {
   		break;
   	}
   }
-  return person; 
+  return person;
 }
 
 var getClientName = function(id) {
@@ -315,7 +174,7 @@ var getClientName = function(id) {
   $("input:checkbox.location-check-group").not('#all-location').click(function() {
     if($('#all-location').is(':checked')){
       $('#all-location').prop('checked', false);
-    } 
+    }
 
     // var check = $(this).is(':checked');
     location_validator_function();
@@ -345,7 +204,7 @@ var reloadCalendar = function() {
   var s = $('#calendar').fullCalendar('getEventSources');
 	// console.log("event Sources", s )
  //  $('#calendar').fullCalendar('refetchEvents');
-  
+
   if(rescheduleToggle) {
   	rescheduler();
   }
@@ -486,11 +345,11 @@ var clickFilter = function(checkbox) {
 	}
 	// console.log("current", currentData);
 	// console.log("available", availableData);
-	
-	
+
+
 	if (staff_validator && location_validator){
     reloadCalendar();
-  } 
+  }
   else {
   	blankCalendar();
   }
@@ -510,7 +369,7 @@ $('#calendar').fullCalendar({
 
     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     defaultView: 'month',//'agendaDay',
-    
+
     slotDuration: {minutes: 15}, //required
     slotEventOverlap: false,
     header: {
@@ -550,24 +409,24 @@ console.log("month");
 			// 		console.log("data from ajax", data);
 			// 	})
 
-			
+
     	} else if (viewNow === 'agendaWeek') {
     		console.log("week");
     		// getWeek();
     	} else if (viewNow === 'agendaDay') {
     		console.log("day");
     	}
-      
+
     },
     // eventRender: function() {
-      
+
     // }
 
 
    })
 
 
-	
+
 
 
 
@@ -575,13 +434,13 @@ console.log("month");
   $('.fc-toolbar .fc-center .fc-today-button').after(
     $('<input type="text" id="date-picker">')
   );
-  
+
   //show calendar on button click
   $("#date-picker").datepicker({
       showOn: 'button',
       buttonText: '<span class="glyphicon glyphicon-chevron-down"></span>',
       //changes date on fullCalendar when date selected in datepicker
-      onSelect: function(dateText) { 
+      onSelect: function(dateText) {
         $('#calendar').fullCalendar( 'gotoDate', dateText )
       }
   });
@@ -599,7 +458,7 @@ console.log("month");
     $('#dialog').dialog({
       height: 300,
       modal: true,
-      buttons: 
+      buttons:
       [
         {
           text: "Save Appointment",
@@ -621,7 +480,7 @@ console.log("month");
   })
 
 
-  var rescheduleToggle = false; 
+  var rescheduleToggle = false;
   //true: user wants to only see rescheduled events ->remove events
   //false: user wants to see all events -> add events back in
   var rescheduleToggleArray = [];
