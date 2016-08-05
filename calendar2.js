@@ -77,9 +77,11 @@ $(document).ready(function() {
     var getFilteredAppointments = function (appointments) {
         var staffIds = getCheckedIdsFor('staff');
         var clientIds = getCheckedIdsFor('location');
+        var isRescheduled = $('.rescheduled-check-group input').prop('checked');
 
         filteredAppointments = _.filter(appointments, function (appointment) {
             return ((_.contains(staffIds, appointment.staff_id))
+                && (isRescheduled ? (appointment.rescheduled_at !== undefined) : true)
                 && (_.contains(clientIds, appointment.client_id)));
         });
 
@@ -92,7 +94,6 @@ $(document).ready(function() {
 
         $('#calendar').fullCalendar('removeEvents');
         $('#calendar').fullCalendar('addEventSource', filteredAppointments);
-        $('#calendar').fullCalendar('refetchEvents');
     };
 
     var toggleFilter = function ($target) {
@@ -126,8 +127,6 @@ $(document).ready(function() {
         }
     };
 
-
-
     var getFilterHtml = function (id, name, type, color, backgroundcolor) {
         return '        <div class="form-group ' + type + '-check-group">' +
         '            <input type="checkbox" id="' + id + '-' + name + '" data-id="' + id + '" data-name="' + name + '" autocomplete="off">' +
@@ -141,6 +140,12 @@ $(document).ready(function() {
         '                </label>' +
         '            </div>' +
         '        </div>';
+    };
+
+    var renderRescheduledFilter = function () {
+        var allHtml = getFilterHtml('rescheduled', 'Rescheduled', 'rescheduled', '#fff', '#E43F3F');
+
+        $('#rescheduled').append(allHtml);
     };
 
     var renderClientFilters = function () {
@@ -184,11 +189,13 @@ $(document).ready(function() {
         eventSources: getSchedule
     });
 
+    renderRescheduledFilter();
     renderClientFilters();
     renderStaffFilters();
 
-    $('.staff-check-group').on('click', evaluateFilter);
+    $('.rescheduled-check-group').on('click', evaluateFilter);
     $('.location-check-group').on('click', evaluateFilter);
+    $('.staff-check-group').on('click', evaluateFilter);
 
 
 
