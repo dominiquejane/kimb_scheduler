@@ -3,12 +3,20 @@ window.httpOptionsRootUri = 'https://schedule-aggregator.kbi.bcx.zone';
 $(document).ready(function() {
     var calendarData = {};
 
+    var getScheduleItems = function (calendarData) {
+        var timeblocks = getTimeblocks(calendarData);
+        var appointments = getAppointments(calendarData);
+        var classes = getClasses(calendarData);
+
+        return timeblocks.concat(appointments).concat(classes);
+    }
+
     var getSchedule = function (startDate, endDate, timezone, setCalendarEvents) {
         var calendarData = loadSchedule(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
-        var appointments = getTimeblocks(calendarData);
-        var filteredAppointments = getFilteredAppointments(appointments);
+        var schedule = getScheduleItems(calendarData);
+        var filteredSchedule = getFilteredSchedule(schedule);
 
-        setCalendarEvents(filteredAppointments);
+        setCalendarEvents(filteredSchedule);
     };
 
     var loadSchedule = function (startDate, endDate) {
@@ -39,6 +47,30 @@ $(document).ready(function() {
             timeBlock.title = staff.last_name + " " + time + " " +  client.name;
 
             return timeBlock;
+        });
+    };
+
+    var getAppointments = function (calendarData) {
+        return _.map(calendarData['appointments'], function (scheduleItem) {
+            var time = $.fullCalendar.formatRange(scheduleItem.start, scheduleItem.end, 'h(:mm)t');
+            var staff = getStaff(calendarData, scheduleItem.staff_id);
+            var client = getClient(calendarData, scheduleItem.client_id);
+
+            scheduleItem.title = staff.last_name + " " + time + " " +  client.name;
+
+            return scheduleItem;
+        });
+    };
+
+    var getClasses = function (calendarData) {
+        return _.map(calendarData['classes'], function (scheduleItem) {
+            var time = $.fullCalendar.formatRange(scheduleItem.start, scheduleItem.end, 'h(:mm)t');
+            var staff = getStaff(calendarData, scheduleItem.staff_id);
+            var client = getClient(calendarData, scheduleItem.client_id);
+
+            scheduleItem.title = staff.last_name + " " + time + " " +  client.name;
+
+            return scheduleItem;
         });
     };
 
@@ -74,7 +106,7 @@ $(document).ready(function() {
         return itemIds;
     };
 
-    var getFilteredAppointments = function (appointments) {
+    var getFilteredSchedule = function (appointments) {
         var staffIds = getCheckedIdsFor('staff');
         var clientIds = getCheckedIdsFor('location');
         var isRescheduled = $('.rescheduled-check-group input').prop('checked');
@@ -88,12 +120,12 @@ $(document).ready(function() {
         return filteredAppointments;
     };
 
-    var filterCalendarAppointments = function () {
-        var appointments = getTimeblocks(calendarData);
-        var filteredAppointments = getFilteredAppointments(appointments);
+    var filterCalendarSchedule = function () {
+        var schedule = getScheduleItems(calendarData);
+        var filteredSchedule = getFilteredSchedule(schedule);
 
         $('#calendar').fullCalendar('removeEvents');
-        $('#calendar').fullCalendar('addEventSource', filteredAppointments);
+        $('#calendar').fullCalendar('addEventSource', filteredSchedule);
     };
 
     var toggleFilter = function ($target) {
@@ -101,7 +133,7 @@ $(document).ready(function() {
         var isChecked = $checkbox.prop('checked');
 
         $target.find('input').prop('checked', ! isChecked);
-        filterCalendarAppointments();
+        filterCalendarSchedule();
     };
 
     var toggleAllFilters = function ($target) {
@@ -110,7 +142,7 @@ $(document).ready(function() {
         var isChecked = $checkbox.prop('checked');
 
         $('#' + type + ' input').prop('checked', !isChecked);
-        filterCalendarAppointments();
+        filterCalendarSchedule();
     };
 
     var evaluateFilter = function (event) {
