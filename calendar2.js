@@ -81,7 +81,7 @@ $(document).ready(function() {
 
         filteredAppointments = _.filter(appointments, function (appointment) {
             return ((_.contains(staffIds, appointment.staff_id))
-                && (isRescheduled ? (appointment.rescheduled_at !== undefined) : true)
+                && (isRescheduled ? (appointment.rescheduled_at !== undefined && appointment.rescheduled_at !== null) : true)
                 && (_.contains(clientIds, appointment.client_id)));
         });
 
