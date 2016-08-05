@@ -95,15 +95,38 @@ $(document).ready(function() {
         $('#calendar').fullCalendar('refetchEvents');
     };
 
-    var toggleFilter = function (event) {
-        if ($(event.target).hasClass('form-group')) {
-            $checkbox = $(event.target).find('input');
-            isChecked = $checkbox.prop('checked');
-            $(event.target).find('input').prop('checked', ! isChecked);
+    var toggleFilter = function ($target) {
+        var $checkbox = $target.find('input');
+        var isChecked = $checkbox.prop('checked');
 
-            filterCalendarAppointments();
+        $target.find('input').prop('checked', ! isChecked);
+        filterCalendarAppointments();
+    };
+
+    var toggleAllFilters = function ($target) {
+        var type = $target.find('input').attr('data-id');
+        var $checkbox = $target.find('input');
+        var isChecked = $checkbox.prop('checked');
+
+        $('#' + type + ' input').prop('checked', !isChecked);
+        filterCalendarAppointments();
+    };
+
+    var evaluateFilter = function (event) {
+        if ($(event.target).hasClass('form-group')) {
+            $allFilters = $(event.target).children('input[data-name="ALL"]');
+
+            if ($allFilters.length > 0) {
+                toggleAllFilters($(event.target));
+
+                return;
+            }
+
+            toggleFilter($(event.target));
         }
     };
+
+
 
     var getFilterHtml = function (id, name, type, color, backgroundcolor) {
         return '        <div class="form-group ' + type + '-check-group">' +
@@ -121,7 +144,7 @@ $(document).ready(function() {
     };
 
     var renderClientFilters = function () {
-        var allHtml = getFilterHtml('all', 'ALL', 'location', '#333', '#fff');
+        var allHtml = getFilterHtml('location', 'ALL', 'location', '#333', '#fff');
 
         $('#location').append(allHtml);
 
@@ -134,7 +157,7 @@ $(document).ready(function() {
     };
 
     var renderStaffFilters = function () {
-        var allHtml = getFilterHtml('all', 'ALL', 'staff', '#333', '#fff');
+        var allHtml = getFilterHtml('staff', 'ALL', 'staff', '#333', '#fff');
 
         $('#staff').append(allHtml);
 
@@ -164,8 +187,8 @@ $(document).ready(function() {
     renderClientFilters();
     renderStaffFilters();
 
-    $('.staff-check-group').on('click', toggleFilter);
-    $('.location-check-group').on('click', toggleFilter);
+    $('.staff-check-group').on('click', evaluateFilter);
+    $('.location-check-group').on('click', evaluateFilter);
 
 
 
